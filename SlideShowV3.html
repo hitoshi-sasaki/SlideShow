@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>スライドショー</title>
+    <style>
+      body {
+        text-align : center;
+      }
+      .main img {
+        width : 300px;
+        vertical-align: middle;
+      }
+      .thumbnails {
+        text-align: center;
+      }
+      .thumbnails img {
+        width: 50px;
+        opacity: 0.3;
+      }
+      .navi {
+        text-align: center;
+      }
+      button {
+        font-size: 24px;
+      }
+      .title {
+        font-size: xx-large;
+      }
+      .thumbnails img.selected {
+        opacity: 1.0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      歴代総長スライドショー
+    </div>
+    <div class="main">
+      <button type="button" id="prev" onclick="left()"><</button>
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_01.jpg">
+      <button type="button" id="next" onclick="right()">></button>
+    </div>
+    <div class="control">
+      <button type="button" onclick="play()">再生</button>
+      <button type="button" onclick="stop()">停止</button>
+      <button type="button" onclick="reset()">リセット</button>
+    </div>
+    <div class="thumbnails">
+      <img class="selected" src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_01.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_02.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_03.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_04.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_05.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_06.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_07.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_08.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_09.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_10.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_11.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_12.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_13.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_14.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_15.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_16.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_17.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_18.jpg">
+      <img src="https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_19.jpg">
+    </div>
+    <script>
+      let count = 1;
+      const min = 1;
+      const max = 19;
+      const mainElement = document.querySelector("div.main>img");
+      const thumbnailsElement = document.querySelector("div.thumbnails");
+      const url = "https://www.takushoku-u.ac.jp/summary/images/summary_successive-chancellor_img_";
+
+      function left() {
+        thumbnailsElement.children[count-1].classList.remove('selected');
+        count--;
+        if (count < min) {
+          count = 19;
+        }
+        let src;
+        if (count < 10) {
+          src = url + "0" + count + ".jpg";
+        } else {
+          src = url + count + ".jpg";
+        }
+        mainElement.setAttribute('src', src);
+        thumbnailsElement.children[count-1].classList.add('selected');
+      }
+      function right() {
+        thumbnailsElement.children[count-1].classList.remove('selected');
+        count++;
+        if (count > max) {
+          count = 1;
+        }
+        let src;
+        if (count < 10) {
+          src = url + "0" + count + ".jpg";
+        } else {
+          src = url + count + ".jpg";
+        }
+        mainElement.setAttribute('src', src);
+        thumbnailsElement.children[count-1].classList.add('selected');
+      }
+
+      let timer;
+      let nowPlaying = false;
+      const rightElement = document.querySelector("#next");
+
+      function autoPlay() {
+        // rightElement.click();
+        right();
+        timer = setTimeout(function() {
+          autoPlay();
+        }, 200);
+      }
+
+      function play() {
+        if (nowPlaying) {
+          return;
+        }
+        nowPlaying = true;
+        autoPlay();
+      }
+      function stop() {
+        clearTimeout(timer);
+        nowPlaying = false;
+      }
+      function reset() {
+        stop();
+        thumbnailsElement.children[count-1].classList.remove('selected');
+        thumbnailsElement.children[0].classList.add('selected');
+        mainElement.setAttribute('src', url + "01.jpg");
+        count = 1;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+body {
+  background: Gray;
+}
+
+img {
+  height: 196px;
+  padding: 5px;
+  width: 170px;
+}
+
+.card {
+  cursor: pointer;
+  height: 206px;
+  margin: 10px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: 0.5s;
+  width: 180px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-front,
+.card-back {
+  backface-visibility: hidden;
+  border-radius: 8px;
+  height: 100%;
+  left: 0;
+  line-height: 70px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+}
+
+.card-back {
+  background: Orange;
+}
+
+.card-front {
+  background: White;
+  transform: rotateY(180deg);
+}
+
+/*active疑似クラスの設定
+activeは、マウスでクリックされてから離されるまでの状態を指します*/
+.card:active {
+  transform: rotateY(180deg);
+}
